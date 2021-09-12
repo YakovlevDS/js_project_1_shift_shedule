@@ -1,13 +1,19 @@
 
 const btnAdd = document.querySelector("#btn-add");
+let btnDel = document.querySelector("#btn-del");
 const contentAdd = document.querySelector(".shift__wrapper");
 const parentAppend = document.querySelector("#add-block-wrapper");
 btnAdd.addEventListener("click", () => {
     const el = document.createElement("div");
     let content = contentAdd.innerHTML;
-    el.innerHTML = `${content}<button type="button" id="btn-add" class="btn btn-primary">Del</button>`;
-
+    el.innerHTML = `${content}<button type="button" id="btn-del" class="btn btn-primary">Del</button>`;
     parentAppend.appendChild(el);
+    
+});
+btnDel &&
+btnDel.addEventListener("click", () => {
+
+  parentAppend.removeChild(contentAdd);
 });
 
 // const btnAddField = document.querySelector("#btn-add");
