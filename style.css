@@ -1,0 +1,13 @@
+.wrap{
+    width: 100%;
+    text-align: center;
+    font-size: larger;
+    font-weight: 500;
+    font-style: oblique;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+
+}
+.month{
+ font-size: 36px; 
+ font-weight: 700;  
+}
