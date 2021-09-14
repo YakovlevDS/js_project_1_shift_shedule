@@ -1,31 +1,58 @@
 
 const btnAdd = document.querySelector("#btn-add");
-let btnDel = document.querySelector("#btn-del");
+// let btnsDel = document.querySelectorAll(".btn-del");
+let btnDel
 const contentAdd = document.querySelector(".shift__wrapper");
 const parentAppend = document.querySelector("#add-block-wrapper");
-btnAdd.addEventListener("click", () => {
-    const el = document.createElement("div");
-    let content = contentAdd.innerHTML;
-    el.innerHTML = `${content}<button type="button" id="btn-del" class="btn btn-primary">Del</button>`;
-    parentAppend.appendChild(el);
-    
-});
-btnDel &&
-btnDel.addEventListener("click", () => {
+const parentAppendDel = document.querySelector("#gv__add-shift-button__wrapper");
 
-  parentAppend.removeChild(contentAdd);
-});
-
-// const btnAddField = document.querySelector("#btn-add");
-// const parentFieldSet = document.querySelector("#add-block-wrapper");
-// const blockAddField = document.querySelector("#gv__all-shifts__box");
-// console.log(btnAddField);
-// console.log(parentFieldSet);
-// console.log(blockAddField);
-// btnAddField.addEventListener("click", () => {
-//     console.log("click");
-//     let newDiv = document.createElement = "div";
-//     newDiv.innerHTML = "<h1>Привет!</h1>";
-//      parentFieldSet.appendChild(newDiv);
-// })
+add = () => {
+  
  
+  if (!btnDel) {
+    const buttonDel = document.createElement("button");
+    buttonDel.type="button";
+    buttonDel.classList.add("btn", "btn-primary", "btn-sm", "btn-del");
+    buttonDel.textContent = "Del";
+    parentAppendDel.appendChild(buttonDel);
+    btnDel = document.querySelector(".btn-del");
+    btnDel.addEventListener("click", () => del());
+  }
+  const el = document.createElement("div");
+  el.classList.add("d-flex", "flex-row");
+  let content = contentAdd.innerHTML;
+  el.innerHTML = content;
+  parentAppend.appendChild(el);
+
+}
+
+del = () => {
+  console.log(parentAppend.childElementCount);
+  if (parentAppend.childElementCount > 1) {
+    parentAppend.lastElementChild.remove();
+    if(parentAppend.childElementCount = 1) {
+    btnDel.remove();
+  }; 
+  };
+}
+//   btnsDel = document.querySelectorAll(".btn-del");
+//   console.log(btnsDel);
+//   btnsDel.forEach((btn) => btn.addEventListener("click", () => del()));
+// };
+
+// del = () => parentAppend.lastElementChild.remove();
+  
+
+ 
+
+btnAdd.addEventListener("click", () => add())
+
+
+
+
+
+const shiftStart = document.querySelector(".shift-start");
+
+
+  shiftStart.addEventListener("change", () => this.value);
+  shiftStart.value
