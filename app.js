@@ -6,11 +6,23 @@ const parentAppendDel = document.querySelector(
   "#gv__add-shift-button__wrapper"
 );
 const startDate = document.querySelector(".shift-start");
+const numberOfBrigade = document.querySelector(".shift-brigade");
+const numberOfWorkDays = document.querySelector(".shift-duration");
+const numberOfOffDays = document.querySelector(".shift-off-days");
+const labelOff = document.querySelector(".shift-off-label");
+const labelWork = document.querySelector(".shift-work-label");
+
+
 let btnDel;
+
 let startDateVal = startDate.value;
+let numberOfBrigadeVal = numberOfBrigade.value;
+let numberOfWorkDaysVal = numberOfWorkDays.value;
+let numberOfOffDaysVal = numberOfOffDays.value;
+let labelOffVal = labelOff.value;
+let labelWorkVal = labelWork.value;
 
 const curDate = new Date();
-
 
 const daysInMonth = (m, y) =>
   31 - (--m ^ 1 ?
@@ -27,10 +39,21 @@ const daysInMonth = (m, y) =>
   // Вычитаем из максимально возможного числа дней в месяце(31) 0 1 , 2 или 3 дня в зависимости от условий.
 
 
-console.log(daysInMonth(curDate.getMonth() + 1, curDate.getFullYear()));
-
-startDate.addEventListener("change", () => (startDateVal = startDate.value));
-
+numberOfWorkDays.addEventListener(
+  "change",
+  () => (numberOfWorkDaysVal = numberOfWorkDays.value)
+);
+numberOfOffDays.addEventListener(
+  "change",
+  () => (numberOfOffDaysVal = numberOfOffDays.value)
+);
+startDate.addEventListener("change", () => startDateVal = startDate.value);
+labelOff.addEventListener("change", () => (labelOffVal = labelOff.value));
+labelWork.addEventListener("change", () => (labelWorkVal = labelWork.value));
+numberOfBrigade.addEventListener(
+  "change",
+  () => numberOfBrigadeVal = numberOfBrigade.value
+);
 
 //   const b1 = '1111 2222 3333  '
 //   const b2 = '1111 2222 3333  '
@@ -40,6 +63,18 @@ startDate.addEventListener("change", () => (startDateVal = startDate.value));
 // for (let i = startDateVal; i <= curMonthDays; i++){
 
 // }
+
+
+
+console.log(
+  numberOfBrigadeVal,
+  numberOfWorkDaysVal,
+  numberOfOffDaysVal,
+  labelWorkVal,
+  labelOffVal
+);
+
+
 add = () => {
   if (!btnDel) {
     const buttonDel = document.createElement("button");
