@@ -1,6 +1,6 @@
 const btnAdd = document.querySelector("#btn-add");
 const br1 = document.querySelectorAll(".br1");
-const br2= document.querySelectorAll(".br2");
+const br2 = document.querySelectorAll(".br2");
 const br3 = document.querySelectorAll(".br3");
 const br4 = document.querySelectorAll(".br4");
 
@@ -16,9 +16,9 @@ const numberOfOffDays = document.querySelector(".shift-off-days");
 const labelOff = document.querySelector(".shift-off-label");
 const labelWork = document.querySelector(".shift-work-label");
 
-  const b1 = "2222В3333ВВ1111В";
-  const b2 = "3333ВВ1111В2222В";
-  const b3 = "ВВ1111В2222В3333"; 
+const b1 = "2222В3333ВВ1111В";
+const b2 = "3333ВВ1111В2222В";
+const b3 = "ВВ1111В2222В3333";
 const b4 = "1111В2222В3333ВВ";
 let btnDel;
 
@@ -29,36 +29,29 @@ let numberOfOffDaysVal = numberOfOffDays.value;
 let labelOffVal = labelOff.value;
 let labelWorkVal = labelWork.value;
 
-const curDate = new Date();
-
+const curDate = new Date()
+  const curYear = curDate.toISOString().substr(0, 4);
+  const curMonth = curDate.toISOString().substr(5, 2);
 const daysInMonth = (m, y) =>
-  31 - (--m ^ 1 ?
-    m % 7 & 1
-    : y & 3 ? 3
-      : y % 25 ? 2
-        : y & 15 ? 3
-          : 2);
-  // Используем конструкцию тернарного оператора с несколькими проверками
-  // % --Бинарный оператор. Возвращает целочисленный остаток от деления двух операндов.
-  // & -- Возвращает единицу в каждой битовой позиции, для которой соответствующие биты обеих операндов являются единицами.
-  // --m учет того что мес начинается с 0.
-  // ^ -- Возвращает единицу в каждой битовой позиции, для которой только один из соответствующих битов операндов является единицей.(^1 для четных делает +1 для нечетных -1)
-  // Вычитаем из максимально возможного числа дней в месяце(31) 0 1 , 2 или 3 дня в зависимости от условий.
-const fillTable = (br,b)=> {
+  31 - (--m ^ 1 ? m % 7 & 1 : y & 3 ? 3 : y % 25 ? 2 : y & 15 ? 3 : 2);
+// Используем конструкцию тернарного оператора с несколькими проверками
+// % --Бинарный оператор. Возвращает целочисленный остаток от деления двух операндов.
+// & -- Возвращает единицу в каждой битовой позиции, для которой соответствующие биты обеих операндов являются единицами.
+// --m учет того что мес начинается с 0.
+// ^ -- Возвращает единицу в каждой битовой позиции, для которой только один из соответствующих битов операндов является единицей.(^1 для четных делает +1 для нечетных -1)
+// Вычитаем из максимально возможного числа дней в месяце(31) 0 1 , 2 или 3 дня в зависимости от условий.
+const fillTable = (br, b) => {
   let z = 0;
-  for (let i = 0; i < 30; i++) {
-  i + 1 == b.length ? (z = 0) : z++;
-  br[i].textContent = b[z];
+  for (let i = 0; i < 31; i++) {
+    i + 1 == b.length ? (z = 0) : z++;
+    br[i].textContent = b[z];
   }
-  }
+};
 fillTable(br1, b1);
 fillTable(br2, b2);
 fillTable(br3, b3);
 fillTable(br4, b4);
-
-  
-
-
+console.log(daysInMonth(curMonth, curYear), curMonth, curYear);
 
 numberOfWorkDays.addEventListener(
   "change",
@@ -68,21 +61,17 @@ numberOfOffDays.addEventListener(
   "change",
   () => (numberOfOffDaysVal = numberOfOffDays.value)
 );
-startDate.addEventListener("change", () => startDateVal = startDate.value);
+startDate.addEventListener("change", () => (startDateVal = startDate.value));
 labelOff.addEventListener("change", () => (labelOffVal = labelOff.value));
 labelWork.addEventListener("change", () => (labelWorkVal = labelWork.value));
 numberOfBrigade.addEventListener(
   "change",
-  () => numberOfBrigadeVal = numberOfBrigade.value
+  () => (numberOfBrigadeVal = numberOfBrigade.value)
 );
-
-
 
 // for (let i = startDateVal; i <= curMonthDays; i++){
 
 // }
-
-
 
 console.log(
   numberOfBrigadeVal,
@@ -91,7 +80,6 @@ console.log(
   labelWorkVal,
   labelOffVal
 );
-
 
 add = () => {
   if (!btnDel) {
