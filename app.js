@@ -1,4 +1,8 @@
 const btnAdd = document.querySelector("#btn-add");
+const br1 = document.querySelectorAll(".br1");
+const br2= document.querySelectorAll(".br2");
+const br3 = document.querySelectorAll(".br3");
+const br4 = document.querySelectorAll(".br4");
 
 const contentAdd = document.querySelector(".shift__wrapper");
 const parentAppend = document.querySelector("#add-block-wrapper");
@@ -12,7 +16,10 @@ const numberOfOffDays = document.querySelector(".shift-off-days");
 const labelOff = document.querySelector(".shift-off-label");
 const labelWork = document.querySelector(".shift-work-label");
 
-
+  const b1 = "2222В3333ВВ1111В";
+  const b2 = "3333ВВ1111В2222В";
+  const b3 = "ВВ1111В2222В3333"; 
+const b4 = "1111В2222В3333ВВ";
 let btnDel;
 
 let startDateVal = startDate.value;
@@ -37,6 +44,20 @@ const daysInMonth = (m, y) =>
   // --m учет того что мес начинается с 0.
   // ^ -- Возвращает единицу в каждой битовой позиции, для которой только один из соответствующих битов операндов является единицей.(^1 для четных делает +1 для нечетных -1)
   // Вычитаем из максимально возможного числа дней в месяце(31) 0 1 , 2 или 3 дня в зависимости от условий.
+const fillTable = (br,b)=> {
+  let z = 0;
+  for (let i = 0; i < 30; i++) {
+  i + 1 == b.length ? (z = 0) : z++;
+  br[i].textContent = b[z];
+  }
+  }
+fillTable(br1, b1);
+fillTable(br2, b2);
+fillTable(br3, b3);
+fillTable(br4, b4);
+
+  
+
 
 
 numberOfWorkDays.addEventListener(
@@ -55,10 +76,7 @@ numberOfBrigade.addEventListener(
   () => numberOfBrigadeVal = numberOfBrigade.value
 );
 
-//   const b1 = '1111 2222 3333  '
-//   const b2 = '1111 2222 3333  '
-//   const b3 = '1111 2222 3333  '
-// const b4 = '1111 2222 3333  '
+
 
 // for (let i = startDateVal; i <= curMonthDays; i++){
 
