@@ -7,6 +7,29 @@ const br1 = document.querySelectorAll(".br1");
 const br2 = document.querySelectorAll(".br2");
 const br3 = document.querySelectorAll(".br3");
 const br4 = document.querySelectorAll(".br4");
+const calcYear = document.querySelector(".year");
+const calcMonth = document.querySelector(".month");
+const inputMonth = document.querySelector("#calc-month");
+const inputYear = document.querySelector("#calcYear");
+
+let monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+
+
+
 
 // записываем в  константы блоки для вставки контента
 const contentAdd = document.querySelector(".shift__wrapper");
@@ -69,11 +92,13 @@ const getStrBr = () => {
   b1 = arrCicle.join('');
   console.log(b1);
   fillTable(br1, b1);
-  
+  console.log(calcDate(curDate, future, sumCicleDays));
+  return sumCicleDays
 };
 
 // записываем в константы текущую дату, год, месяц
 const curDate = new Date();
+const future = new Date(2021, 10, 01); 
 const curYear = curDate.toISOString().substr(0, 4);
 const curMonth = curDate.toISOString().substr(5, 2);
 
@@ -92,10 +117,22 @@ console.log(daysInMonth(curMonth, curYear), curMonth, curYear);
 const fillTable = (br, b) => {
   let z = 0;
   for (let i = 0; i < 31; i++) {
-    i + 1 == b.length ? (z = 0) : z++;
     br[i].textContent = b[z];
+    // Проверяем если остаток от деления текущего дня мес на длину полного цикла ноль то сбрасываем заполнение на нулевой элемент цикла пока не заполним все дни мес
+    ((i + 1) % b.length) === 0  ? (z = 0) : z++;
   }
 };
+// определение разницы дней  от указанного в текущ ме до 1 числа расчетного мес и остаток от деления
+function calcDate(date1, date2,sumCicleDays) {
+  let diff = Math.floor(date2.getTime() - date1.getTime());
+  let day = 1000 * 60 * 60 * 24;
+  let days = Math.floor(diff / day);
+  let remainder = days % sumCicleDays
+  return remainder;
+}
+
+
+
 
 // Вызов функции заполнения каждой из бригад
 
@@ -139,3 +176,6 @@ const del = () => {
 //  Добавление слушателей на события click по кнопкам Add и Calc
 btnAdd.addEventListener("click", () => add());
 btnCalc.addEventListener("click", () => getStrBr());
+inputMonth.addEventListener("change", () =>calcMonth.textContent=monthNames[inputMonth.value-1] );
+inputYear.addEventListener("change", () => calcYear.textContent = inputYear.value);
+
