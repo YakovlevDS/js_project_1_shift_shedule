@@ -1,6 +1,9 @@
 // записываем в  константы кнопки добавить и рассчитать
 const btnAdd = document.querySelector("#btn-add");
 const btnCalc = document.querySelector("#btn-calc");
+const deltaBr2 = document.querySelector("#deltaBr2");
+const deltaBr3 = document.querySelector("#deltaBr3");
+const deltaBr4 = document.querySelector("#deltaBr4");
 
 // записываем в node-list ячейки по-бригадно
 const br1 = document.querySelectorAll(".br1");
@@ -90,8 +93,52 @@ const getStrBr = () => {
     }
   }
   b1 = arrCicle.join('');
+
+let b2;
+let b3;
+let b4;
+
+
+  if (+deltaBr2.value < 0) {
+    b2 = b1.substring(Math.abs(+deltaBr2.value), arrCicle.length)+ b1.substring(0, Math.abs(+deltaBr2.value))
+  } else {
+b2 =
+  b1.substring(arrCicle.length - +deltaBr2.value, arrCicle.length) +
+  b1.substring(0, arrCicle.length - +deltaBr2.value);
+  }
+
+
+    if (+deltaBr3.value < 0) {
+      b3 =
+        b1.substring(Math.abs(+deltaBr3.value), arrCicle.length) +
+        b1.substring(0, Math.abs(+deltaBr3.value));
+    } else {
+      b3 =
+        b1.substring(arrCicle.length - +deltaBr3.value, arrCicle.length) +
+        b1.substring(0, arrCicle.length - +deltaBr3.value);
+    }
+  
+    if (+deltaBr4.value < 0) {
+      b4 =
+        b1.substring(Math.abs(+deltaBr4.value), arrCicle.length) +
+        b1.substring(0, Math.abs(+deltaBr4.value));
+    } else {
+      b4 =
+        b1.substring(arrCicle.length - +deltaBr4.value, arrCicle.length) +
+        b1.substring(0, arrCicle.length - +deltaBr4.value);
+    }
+    
   console.log(b1);
+  console.log(b2);
+  console.log(b3);
+  console.log(b4);
+
+
   fillTable(br1, b1);
+  fillTable(br2, b2);
+  fillTable(br3, b3);
+  fillTable(br4, b4);
+
   console.log(calcDate(curDate, future, sumCicleDays));
   return sumCicleDays
 };
@@ -178,4 +225,5 @@ btnAdd.addEventListener("click", () => add());
 btnCalc.addEventListener("click", () => getStrBr());
 inputMonth.addEventListener("change", () =>calcMonth.textContent=monthNames[inputMonth.value-1] );
 inputYear.addEventListener("change", () => calcYear.textContent = inputYear.value);
+
 
