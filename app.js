@@ -93,7 +93,7 @@ const getStrBr = () => {
 
   // записываем в константы текущую дату, год, месяц
   const curDate = new Date();
-  const future = new Date(inputYear.value, inputMonth.value, shiftStart.value);
+  const future = new Date(inputYear.value, inputMonth.value);
   const curYear = future.toISOString().substr(0, 4);
   const curMonth = future.toISOString().substr(5, 2);
 
@@ -102,7 +102,7 @@ const getStrBr = () => {
   calcYear.textContent = inputYear.value;
 
   const days = daysInMonth(curMonth, curYear);
-  console.log(daysInMonth(curMonth, curYear), curMonth, curYear);
+  console.log(days, curMonth, curYear);
 
   // console.log(cicleItems.length, labels.length, cicleParts.length);
 
@@ -200,7 +200,7 @@ const fillTable = (br, b, days, startDateVal) => {
       (i + 1) % b.length === 0 ? (z = 0) : z++;
     }
   } else {
-    for (let i = startDateVal; i < days; i++) {
+    for (let i = startDateVal; i < days+1; i++) {
       br[i - 1].textContent = b[z];
       // console.log(br[i - 1].textContent);
       // Проверяем если остаток от деления текущего дня мес на длину полного цикла ноль то сбрасываем заполнение на нулевой элемент цикла пока не заполним все дни мес
