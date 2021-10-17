@@ -1,6 +1,8 @@
 // записываем в  константы кнопки добавить и рассчитать
 const btnAdd = document.querySelector("#btn-add");
 const btnCalc = document.querySelector("#btn-calc");
+
+// записываем в  константы смещение полного цикла относительно бригады 1
 const deltaBr2 = document.querySelector("#deltaBr2");
 const deltaBr3 = document.querySelector("#deltaBr3");
 const deltaBr4 = document.querySelector("#deltaBr4");
@@ -10,10 +12,12 @@ const br1 = document.querySelectorAll(".br1");
 const br2 = document.querySelectorAll(".br2");
 const br3 = document.querySelectorAll(".br3");
 const br4 = document.querySelectorAll(".br4");
+
+// записываем в  константы данные для расчетов
 const calcYear = document.querySelector(".year");
 const calcMonth = document.querySelector(".month");
-const inputMonth = document.querySelector("#calc-month");
-const inputYear = document.querySelector("#calcYear");
+
+
 
 let monthNames = [
   "January",
@@ -41,26 +45,64 @@ const parentAppendDel = document.querySelector(
   "#gv__add-shift-button__wrapper"
 );
 
-// записываем в  константы блоки с исходными данными
-const startDate = document.querySelector(".shift-start");
-const numberOfBrigade = document.querySelector(".shift-brigade");
 
 // временные исходные данные
-let b1 = "";
-const b2 = "3333ВВ1111В2222В";
-const b3 = "ВВ1111В2222В3333";
-const b4 = "1111В2222В3333ВВ";
+let b1;
+let b2;
+let b3;
+let b4;
 
-// объявляем переменные и заносим исходные значения
+// const b2 = "3333ВВ1111В2222В";
+// const b3 = "ВВ1111В2222В3333";
+// const b4 = "1111В2222В3333ВВ";
+
+// объявляем переменные 
 let btnDel;
-let startDateVal = startDate.value;
-let numberOfBrigadeVal = numberOfBrigade.value;
+
+
+// Расчет количества дней в месяце любого года
+const daysInMonth = (m, y) =>
+  31 - (--m ^ 1 ? m % 7 & 1 : y & 3 ? 3 : y % 25 ? 2 : y & 15 ? 3 : 2);
+// Используем конструкцию тернарного оператора с несколькими проверками
+// % --Бинарный оператор. Возвращает целочисленный остаток от деления двух операндов.
+// & -- Возвращает единицу в каждой битовой позиции, для которой соответствующие биты обеих операндов являются единицами.
+// --m учет того что мес начинается с 0.
+// ^ -- Возвращает единицу в каждой битовой позиции, для которой только один из соответствующих битов операндов является единицей.(^1 для четных делает +1 для нечетных -1)
+// Вычитаем из максимально возможного числа дней в месяце(31) 0 1 , 2 или 3 дня в зависимости от условий.
+
+
 
 const getStrBr = () => {
+  // записываем в  константы блоки с исходными данными
+  const startDate = document.querySelector(".shift-start");
+  const numberOfBrigade = document.querySelector(".shift-brigade");
+
+  // объявляем переменные и заносим исходные значения
+  let startDateVal = startDate.value;
+  let numberOfBrigadeVal = numberOfBrigade.value;
+
   // записываем в node-list циклические части
   const cicleItems = document.querySelectorAll(".shift__box");
   const cicleParts = document.querySelectorAll(".shift-duration");
   const labels = document.querySelectorAll(".shift-label");
+
+  // записываем в  константы данные для расчетов
+  const inputMonth = document.querySelector("#calc-month");
+  const inputYear = document.querySelector("#calcYear");
+  const shiftStart = document.querySelector(".shift-start");
+
+  // записываем в константы текущую дату, год, месяц
+  const curDate = new Date();
+  const future = new Date(inputYear.value, inputMonth.value, shiftStart.value);
+  const curYear = future.toISOString().substr(0, 4);
+  const curMonth = future.toISOString().substr(5, 2);
+
+  // Заносим выбранный месяц и год в выводимом бланке
+  calcMonth.textContent = monthNames[inputMonth.value - 1];
+  calcYear.textContent = inputYear.value;
+
+  const days = daysInMonth(curMonth, curYear);
+  console.log(daysInMonth(curMonth, curYear), curMonth, curYear);
 
   // console.log(cicleItems.length, labels.length, cicleParts.length);
 
@@ -92,81 +134,88 @@ const getStrBr = () => {
       arrCicle.push(labelVal[g]);
     }
   }
-  b1 = arrCicle.join('');
+  b1 = arrCicle.join("");
 
-let b2;
-let b3;
-let b4;
-
+  let b2;
+  let b3;
+  let b4;
 
   if (+deltaBr2.value < 0) {
-    b2 = b1.substring(Math.abs(+deltaBr2.value), arrCicle.length)+ b1.substring(0, Math.abs(+deltaBr2.value))
+    b2 =
+      b1.substring(Math.abs(+deltaBr2.value), arrCicle.length) +
+      b1.substring(0, Math.abs(+deltaBr2.value));
   } else {
-b2 =
-  b1.substring(arrCicle.length - +deltaBr2.value, arrCicle.length) +
-  b1.substring(0, arrCicle.length - +deltaBr2.value);
+    b2 =
+      b1.substring(arrCicle.length - +deltaBr2.value, arrCicle.length) +
+      b1.substring(0, arrCicle.length - +deltaBr2.value);
   }
 
+  if (+deltaBr3.value < 0) {
+    b3 =
+      b1.substring(Math.abs(+deltaBr3.value), arrCicle.length) +
+      b1.substring(0, Math.abs(+deltaBr3.value));
+  } else {
+    b3 =
+      b1.substring(arrCicle.length - +deltaBr3.value, arrCicle.length) +
+      b1.substring(0, arrCicle.length - +deltaBr3.value);
+  }
 
-    if (+deltaBr3.value < 0) {
-      b3 =
-        b1.substring(Math.abs(+deltaBr3.value), arrCicle.length) +
-        b1.substring(0, Math.abs(+deltaBr3.value));
-    } else {
-      b3 =
-        b1.substring(arrCicle.length - +deltaBr3.value, arrCicle.length) +
-        b1.substring(0, arrCicle.length - +deltaBr3.value);
-    }
-  
-    if (+deltaBr4.value < 0) {
-      b4 =
-        b1.substring(Math.abs(+deltaBr4.value), arrCicle.length) +
-        b1.substring(0, Math.abs(+deltaBr4.value));
-    } else {
-      b4 =
-        b1.substring(arrCicle.length - +deltaBr4.value, arrCicle.length) +
-        b1.substring(0, arrCicle.length - +deltaBr4.value);
-    }
-    
+  if (+deltaBr4.value < 0) {
+    b4 =
+      b1.substring(Math.abs(+deltaBr4.value), arrCicle.length) +
+      b1.substring(0, Math.abs(+deltaBr4.value));
+  } else {
+    b4 =
+      b1.substring(arrCicle.length - +deltaBr4.value, arrCicle.length) +
+      b1.substring(0, arrCicle.length - +deltaBr4.value);
+  }
+  // циклы каждой из бригад
   console.log(b1);
   console.log(b2);
   console.log(b3);
   console.log(b4);
 
-
-  fillTable(br1, b1);
-  fillTable(br2, b2);
-  fillTable(br3, b3);
-  fillTable(br4, b4);
+  // Вызов функции заполнения каждой из бригад
+  fillTable(br1, b1, days, startDateVal);
+  fillTable(br2, b2, days, startDateVal);
+  fillTable(br3, b3, days, startDateVal);
+  fillTable(br4, b4, days, startDateVal);
 
   console.log(calcDate(curDate, future, sumCicleDays));
-  return sumCicleDays
+
+  return sumCicleDays;
 };
 
-// записываем в константы текущую дату, год, месяц
-const curDate = new Date();
-const future = new Date(2021, 10, 01); 
-const curYear = curDate.toISOString().substr(0, 4);
-const curMonth = curDate.toISOString().substr(5, 2);
 
-// Расчет количества дней в месяце любого года
-const daysInMonth = (m, y) =>
-  31 - (--m ^ 1 ? m % 7 & 1 : y & 3 ? 3 : y % 25 ? 2 : y & 15 ? 3 : 2);
-// Используем конструкцию тернарного оператора с несколькими проверками
-// % --Бинарный оператор. Возвращает целочисленный остаток от деления двух операндов.
-// & -- Возвращает единицу в каждой битовой позиции, для которой соответствующие биты обеих операндов являются единицами.
-// --m учет того что мес начинается с 0.
-// ^ -- Возвращает единицу в каждой битовой позиции, для которой только один из соответствующих битов операндов является единицей.(^1 для четных делает +1 для нечетных -1)
-// Вычитаем из максимально возможного числа дней в месяце(31) 0 1 , 2 или 3 дня в зависимости от условий.
-console.log(daysInMonth(curMonth, curYear), curMonth, curYear);
+
 
 // Заполняем ячейуки месяца по бригадам выбравнным графиком
-const fillTable = (br, b) => {
+const fillTable = (br, b, days, startDateVal) => {
   let z = 0;
-  for (let i = 0; i < 31; i++) {
-    br[i].textContent = b[z];
-    // Проверяем если остаток от деления текущего дня мес на длину полного цикла ноль то сбрасываем заполнение на нулевой элемент цикла пока не заполним все дни мес
-    ((i + 1) % b.length) === 0  ? (z = 0) : z++;
+  // console.log(startDateVal);
+  if (startDateVal == 1) {
+    for (let i = 0; i < days; i++) {
+      br[i].textContent = b[z];
+      // Проверяем если остаток от деления текущего дня мес на длину полного цикла ноль то сбрасываем заполнение на нулевой элемент цикла пока не заполним все дни мес
+      (i + 1) % b.length === 0 ? (z = 0) : z++;
+    }
+  } else {
+    for (let i = startDateVal; i < days; i++) {
+      br[i - 1].textContent = b[z];
+      // console.log(br[i - 1].textContent);
+      // Проверяем если остаток от деления текущего дня мес на длину полного цикла ноль то сбрасываем заполнение на нулевой элемент цикла пока не заполним все дни мес
+      (i + 1) % b.length === 0 ? (z = 0) : z++;
+    }
+     z = 0
+    const revB = b.split("").reverse().join("");
+    console.log(revB);
+    for (let j = +startDateVal - 1; j > 0; j--) {
+      // console.log(j);
+      // console.log(z);
+      br[j-1].textContent = revB[z];
+      // Проверяем если остаток от деления текущего дня мес на длину полного цикла ноль то сбрасываем заполнение на нулевой элемент цикла пока не заполним все дни мес
+      (j + 1) % b.length === 0 ? (z = 0) : z++;
+    }
   }
 };
 // определение разницы дней  от указанного в текущ ме до 1 числа расчетного мес и остаток от деления
@@ -181,11 +230,9 @@ function calcDate(date1, date2,sumCicleDays) {
 
 
 
-// Вызов функции заполнения каждой из бригад
 
-// fillTable(br2, b2);
-// fillTable(br3, b3);
-// fillTable(br4, b4);
+
+
 
 // Функция добавления cicleParts
 const add = () => {
@@ -223,7 +270,7 @@ const del = () => {
 //  Добавление слушателей на события click по кнопкам Add и Calc
 btnAdd.addEventListener("click", () => add());
 btnCalc.addEventListener("click", () => getStrBr());
-inputMonth.addEventListener("change", () =>calcMonth.textContent=monthNames[inputMonth.value-1] );
-inputYear.addEventListener("change", () => calcYear.textContent = inputYear.value);
+// inputMonth.addEventListener("change", () =>calcMonth.textContent=monthNames[inputMonth.value-1] );
+// inputYear.addEventListener("change", () => calcYear.textContent = inputYear.value);
 
 
