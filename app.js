@@ -1,6 +1,7 @@
 // записываем в  константы кнопки добавить и рассчитать
 const btnAdd = document.querySelector("#btn-add");
 const btnCalc = document.querySelector("#btn-calc");
+const btnClear = document.querySelector("#btn-clear");
 
 // записываем в  константы смещение полного цикла относительно бригады 1
 const deltaBr2 = document.querySelector("#deltaBr2");
@@ -12,6 +13,7 @@ const br1 = document.querySelectorAll(".br1");
 const br2 = document.querySelectorAll(".br2");
 const br3 = document.querySelectorAll(".br3");
 const br4 = document.querySelectorAll(".br4");
+const br5 = document.querySelectorAll(".br5");
 
 // записываем в  константы данные для расчетов
 const calcYear = document.querySelector(".year");
@@ -51,6 +53,7 @@ let b1;
 let b2;
 let b3;
 let b4;
+let b5;
 
 // const b2 = "3333ВВ1111В2222В";
 // const b3 = "ВВ1111В2222В3333";
@@ -136,10 +139,6 @@ const getStrBr = () => {
   }
   b1 = arrCicle.join("");
 
-  let b2;
-  let b3;
-  let b4;
-
   if (+deltaBr2.value < 0) {
     b2 =
       b1.substring(Math.abs(+deltaBr2.value), arrCicle.length) +
@@ -188,10 +187,17 @@ const getStrBr = () => {
 
 // Заполняем ячейуки месяца пустотами
 const clearTable = () => {
-  for (let i = 0; i < 31; i++) {
-    br[i].textContent = '';
+    for (let i = 0; i < 31; i++) {
+      br1[i].textContent = '';
+      br2[i].textContent = '';
+      br3[i].textContent = '';
+      br4[i].textContent = '';
+      br5[i].textContent = "";
+    }
   }
-}
+
+
+
   
 // Заполняем ячейуки месяца по бригадам выбравнным графиком
 const fillTable = (br, b, days, startDateVal) => {
@@ -274,6 +280,7 @@ const del = () => {
 //  Добавление слушателей на события click по кнопкам Add и Calc
 btnAdd.addEventListener("click", () => add());
 btnCalc.addEventListener("click", () => getStrBr());
+btnClear.addEventListener("click", () => clearTable());
 // inputMonth.addEventListener("change", () =>calcMonth.textContent=monthNames[inputMonth.value-1] );
 // inputYear.addEventListener("change", () => calcYear.textContent = inputYear.value);
 
