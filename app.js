@@ -186,9 +186,13 @@ const getStrBr = () => {
   return sumCicleDays;
 };
 
-
-
-
+// Заполняем ячейуки месяца пустотами
+const clearTable = () => {
+  for (let i = 0; i < 31; i++) {
+    br[i].textContent = '';
+  }
+}
+  
 // Заполняем ячейуки месяца по бригадам выбравнным графиком
 const fillTable = (br, b, days, startDateVal) => {
   let z = 0;
