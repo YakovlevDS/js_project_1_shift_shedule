@@ -13,12 +13,22 @@
     
     
 <div class="fieldset__box">
-<div class="fieldset-title">Для расчета графика заполните необходимые данные ниже!!!       
+<div class="fieldset-title text-center m-3"><h2>Для расчета графика заполните необходимые данные ниже!</h2>    
 <div class="fieldset-body">
 <div id="add-block-wrapper">
-  <div class="number-brigade">Выберите количество бригад, работающих по составляемому расписанию.
+  <div class="number-brigade m-2">Выберите количество бригад, работающих по составляемому расписанию.
 
-  <select class="shift-brigade">
+  <select class="shift-brigade m-2">
+<option value="1" >1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4"selected>4</option>
+<option value="5">5</option>
+</select>
+</div>
+<div class="number-brigade m-2">Выберите номер бригады, оносительно которой будет расчет
+
+  <select class="shift-brigade m-2">
 <option value="1" selected>1</option>
 <option value="2">2</option>
 <option value="3">3</option>
@@ -26,17 +36,8 @@
 <option value="5">5</option>
 </select>
 </div>
-<div class="number-brigade">Выберите номер бригады
-
-  <select class="shift-brigade">
-<option value="1" selected>1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-</select>
-</div>
-<div id="all-shifts__box">Выберите первый ближайший рабочий день после выходного в текущем месяце.
+<div id="all-shifts__box" m-2
+>Выберите первый ближайший рабочий день после выходного в текущем месяце.
 <select class="shift-start">
 <option value="1" selected>1</option>
 <option value="2">2</option>
@@ -71,7 +72,7 @@
 <option value="31">31</option>
 </select>
 
-<div class="number-month">Выберите расчетный месяц
+<div class="number-month m-2">Выберите расчетный месяц
 
 
   <select id="calc-month">
@@ -89,7 +90,7 @@
 <option value="12">12</option>
 </select>
 </div>
-<div class="input-year">Введите расчетный год
+<div class="input-year m-2">Введите расчетный год
 <input id= 'calcYear' type="text" value='2021'>
 </div>
 <div class="input-year">Введите смещение смен 2бр относительно 1бр
@@ -104,7 +105,7 @@
 <div class="input-year">Введите смещение смен 5бр относительно 1бр
 <input id= 'deltaBr5' type="text" value='12'>
 </div>
-<div class="shift__wrapper">
+<div class="shift__wrapper m-2">
   
 <div class="shift__box">
 <select class="shift-type"  >
@@ -147,7 +148,7 @@
 </div>
 </div>
 <div class="gv__shift__wrapper">
-<div class="shift__box">
+<div class="shift__box m-2">
 <select class="shift-work-off-days"  >
 <option value="1">Рабочие дни</option>
 <option value="0" selected >Выходные дни</option>
@@ -183,7 +184,7 @@
 </div>
 
 
-<div class="shift__box">
+<div class="shift__box m-2">
 <select class="shift-work-off-days"  >
 <option value="1">Рабочие дни</option>
 <option value="0" selected >Выходные дни</option>
@@ -222,7 +223,7 @@
 
 
 
-<div class="shift__box">
+<div class="shift__box m-2">
 <select class="shift-work-off-days"  >
 <option value="1">Рабочие дни</option>
 <option value="0" selected >Выходные дни</option>
@@ -260,7 +261,7 @@
 
 
 
-<div class="shift__box">
+<div class="shift__box m-2">
 <select class="shift-work-off-days"  >
 <option value="1">Рабочие дни</option>
 <option value="0" selected >Выходные дни</option>
@@ -296,7 +297,7 @@
 </div>
 
 
-<div class="shift__box">
+<div class="shift__box m-2">
 <select class="shift-work-off-days"  >
 <option value="1">Рабочие дни</option>
 <option value="0" selected >Выходные дни</option>
@@ -335,16 +336,17 @@
 </div>
 </div>
 </div>
-<div id="gv__add-shift-button__wrapper" class="d-flex flex-row">
+<div id="gv__add-shift-button__wrapper" class="d-flex flex-row justify-content-center m-2">
                 <div id="gv__add-shift-button__box" >
-                  <button type="button" id="btn-add" class="btn btn-primary">Add</button>
+                  
+                  <button type="button" id="btn-add" class="btn btn-primary"> Add row</button>
                     
                 </div>
             </div>
         </div>
     </div>
     <div class="wrap">
-      <button type="button" id="btn-calc" class="btn btn-primary">Calc</button>
+      <button type="button" id="btn-calc" class="btn btn-primary">Calculate</button>
       <button type="button" id="btn-clear" class="btn btn-primary">Clear Table</button>
       <div class="month">September</div>
       <div class="year">2021</div>

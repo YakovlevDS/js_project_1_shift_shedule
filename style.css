@@ -7,9 +7,27 @@
     font-family:Verdana, Geneva, Tahoma, sans-serif;
 
 }
+.table{
+
+    width: 90%;
+}
+input{
+    width: 50px;
+    text-align: center;
+}
+select{
+    text-align: center;
+}
+
+.hide{
+    display: none;
+}
 .month{
  font-size: 36px; 
  font-weight: 700;  
+}
+td{
+   
 }
 td:hover{
     color:red;

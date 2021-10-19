@@ -19,8 +19,6 @@ const br5 = document.querySelectorAll(".br5");
 const calcYear = document.querySelector(".year");
 const calcMonth = document.querySelector(".month");
 
-
-
 let monthNames = [
   "January",
   "February",
@@ -36,9 +34,13 @@ let monthNames = [
   "December",
 ];
 
-
-
-
+  // записываем в node-list циклические значения всех элементов node-list
+  let ciclePartsVal = [];
+  let labelVal = [];
+let arrCicle = [];
+let newArrCicle = [];
+  
+  let sumCicleDays = 0
 
 // записываем в  константы блоки для вставки контента
 const contentAdd = document.querySelector(".shift__wrapper");
@@ -47,17 +49,12 @@ const parentAppendDel = document.querySelector(
   "#gv__add-shift-button__wrapper"
 );
 
-
 // временные исходные данные
 let b1;
 let b2;
 let b3;
 let b4;
 let b5;
-
-// const b2 = "3333ВВ1111В2222В";
-// const b3 = "ВВ1111В2222В3333";
-// const b4 = "1111В2222В3333ВВ";
 
 // объявляем переменные 
 let btnDel;
@@ -96,24 +93,28 @@ const getStrBr = () => {
 
   // записываем в константы текущую дату, год, месяц
   const curDate = new Date();
+
+  const curYear = curDate.getFullYear();
+  const curMonth = curDate.getMonth();
+  const dataStart = new Date(curYear, curMonth, startDateVal);
+  // console.log(dataStart);
+
   const future = new Date(inputYear.value, inputMonth.value);
-  const curYear = future.toISOString().substr(0, 4);
-  const curMonth = future.toISOString().substr(5, 2);
+  // const furYear = future.toISOString().substr(0, 4);
+  const furYear = future.getFullYear();
+  // const furMonth = future.toISOString().substr(5, 2);
+  const furMonth = future.getMonth();
+  const dataEnd = new Date(furYear, furMonth - 1, 1);
+
+  // console.log(dataEnd);
+
+  const days = daysInMonth(furMonth, furYear);
+
+  // console.log(days, furMonth, furYear);
 
   // Заносим выбранный месяц и год в выводимом бланке
   calcMonth.textContent = monthNames[inputMonth.value - 1];
   calcYear.textContent = inputYear.value;
-
-  const days = daysInMonth(curMonth, curYear);
-  console.log(days, curMonth, curYear);
-
-  // console.log(cicleItems.length, labels.length, cicleParts.length);
-
-  // записываем в node-list циклические значения всех элементов node-list
-  let ciclePartsVal = [];
-  let labelVal = [];
-  let arrCicle = [];
-  let sumCicleDays = 0;
 
   // наполняем  массив циклов отдельных частей
   cicleParts.forEach((item, i) => {
@@ -124,11 +125,7 @@ const getStrBr = () => {
   });
 
   // наполняем  массив символьного отображения смен
-
   labels.forEach((item, i) => (labelVal[i] = item.value));
-
-  // console.log(ciclePartsVal, labelVal, sumCicleDays);
-  // console.log(labelVal.length, ciclePartsVal[0]);
 
   // заполняем массив полного цикла
 
@@ -137,7 +134,20 @@ const getStrBr = () => {
       arrCicle.push(labelVal[g]);
     }
   }
-  b1 = arrCicle.join("");
+
+  // находим  и заносим в константу смещение по разности дней дат
+  const deltaDiffDays = calcDate(dataStart, dataEnd, sumCicleDays);
+
+  // перезаписываем массив с учетом смещения
+  let r = deltaDiffDays;
+  for (let i = 0; i < arrCicle.length; i++) {
+    r <= arrCicle.length
+      ? (newArrCicle[i] = arrCicle[r])
+      : (newArrCicle[i] = arrCicle[r - (arrCicle.length + 1)]);
+    r++;
+  }
+
+  b1 = newArrCicle.join("");
 
   if (+deltaBr2.value < 0) {
     b2 =
@@ -169,10 +179,10 @@ const getStrBr = () => {
       b1.substring(0, arrCicle.length - +deltaBr4.value);
   }
   // циклы каждой из бригад
-  console.log(b1);
-  console.log(b2);
-  console.log(b3);
-  console.log(b4);
+  // console.log(b1);
+  // console.log(b2);
+  // console.log(b3);
+  // console.log(b4);
 
   // Вызов функции заполнения каждой из бригад
   fillTable(br1, b1, days, startDateVal);
@@ -180,7 +190,10 @@ const getStrBr = () => {
   fillTable(br3, b3, days, startDateVal);
   fillTable(br4, b4, days, startDateVal);
 
-  console.log(calcDate(curDate, future, sumCicleDays));
+  // console.log(sumCicleDays);
+  // console.log(dataStart);
+  // console.log(dataEnd);
+  // console.log(calcDate(dataStart, dataEnd, sumCicleDays));
 
   return sumCicleDays;
 };
@@ -228,21 +241,16 @@ const fillTable = (br, b, days, startDateVal) => {
     }
   }
 };
-// определение разницы дней  от указанного в текущ ме до 1 числа расчетного мес и остаток от деления
-function calcDate(date1, date2,sumCicleDays) {
+// определение разницы дней  от указанного в текущем месяце до 1 числа расчетного месяца и остаток от деления
+function calcDate(date1, date2, sumCicleDays) {
   let diff = Math.floor(date2.getTime() - date1.getTime());
   let day = 1000 * 60 * 60 * 24;
   let days = Math.floor(diff / day);
+  console.log(days);
   let remainder = days % sumCicleDays
+  console.log(remainder);
   return remainder;
 }
-
-
-
-
-
-
-
 
 // Функция добавления cicleParts
 const add = () => {
@@ -251,7 +259,7 @@ const add = () => {
     const buttonDel = document.createElement("button");
     buttonDel.type = "button";
     buttonDel.classList.add("btn", "btn-primary", "btn-sm", "btn-del");
-    buttonDel.textContent = "Del";
+    buttonDel.textContent = "Delete";
     parentAppendDel.appendChild(buttonDel);
 
     // находим созданную кнопку Del и вешаем слушатель события click вызывая функцию Del
@@ -260,7 +268,7 @@ const add = () => {
   }
   // создание div c классами и контентом и добавление в Dom
   const el = document.createElement("div");
-  el.classList.add("d-flex", "flex-row");
+  el.classList.add("d-flex", "flex-row", "m-2", "justify-content-center");
   let content = contentAdd.innerHTML;
   el.innerHTML = content;
   parentAppend.appendChild(el);
