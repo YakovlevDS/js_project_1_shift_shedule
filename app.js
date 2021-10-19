@@ -99,18 +99,19 @@ const getStrBr = () => {
   const dataStart = new Date(curYear, curMonth, startDateVal);
   // console.log(dataStart);
 
-  const future = new Date(inputYear.value, inputMonth.value);
-  // const furYear = future.toISOString().substr(0, 4);
+
+  const future = new Date(inputYear.value, inputMonth.value-1);
+  console.log(future);
   const furYear = future.getFullYear();
-  // const furMonth = future.toISOString().substr(5, 2);
   const furMonth = future.getMonth();
-  const dataEnd = new Date(furYear, furMonth - 1, 1);
+  const dataEnd = new Date(furYear, furMonth, 1);
 
-  // console.log(dataEnd);
+  console.log(dataEnd);
+console.log(furMonth);
+// Передаем месяц в формате js от 0 до 11
+  const days = daysInMonth(furMonth+1, furYear);
 
-  const days = daysInMonth(furMonth, furYear);
-
-  // console.log(days, furMonth, furYear);
+  console.log(days, furMonth, furYear);
 
   // Заносим выбранный месяц и год в выводимом бланке
   calcMonth.textContent = monthNames[inputMonth.value - 1];
@@ -139,7 +140,7 @@ const getStrBr = () => {
   const deltaDiffDays = calcDate(dataStart, dataEnd, sumCicleDays);
 
   // перезаписываем массив с учетом смещения
-  let r = deltaDiffDays;
+  let r = deltaDiffDays+1;
   for (let i = 0; i < arrCicle.length; i++) {
     r <= arrCicle.length
       ? (newArrCicle[i] = arrCicle[r])
@@ -185,6 +186,7 @@ const getStrBr = () => {
   // console.log(b4);
 
   // Вызов функции заполнения каждой из бригад
+  console.log(days);
   fillTable(br1, b1, days, startDateVal);
   fillTable(br2, b2, days, startDateVal);
   fillTable(br3, b3, days, startDateVal);
@@ -245,10 +247,10 @@ const fillTable = (br, b, days, startDateVal) => {
 function calcDate(date1, date2, sumCicleDays) {
   let diff = Math.floor(date2.getTime() - date1.getTime());
   let day = 1000 * 60 * 60 * 24;
-  let days = Math.floor(diff / day);
-  console.log(days);
-  let remainder = days % sumCicleDays
-  console.log(remainder);
+  let ds = Math.floor(diff / day);
+  // console.log(ds);
+  let remainder = ds % sumCicleDays
+  // console.log(remainder);
   return remainder;
 }
 
