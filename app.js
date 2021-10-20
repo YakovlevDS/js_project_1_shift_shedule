@@ -9,11 +9,13 @@ const deltaBr3 = document.querySelector("#deltaBr3");
 const deltaBr4 = document.querySelector("#deltaBr4");
 
 // записываем в node-list ячейки по-бригадно
+const br0 = document.querySelectorAll(".day-num");
 const br1 = document.querySelectorAll(".br1");
 const br2 = document.querySelectorAll(".br2");
 const br3 = document.querySelectorAll(".br3");
 const br4 = document.querySelectorAll(".br4");
 const br5 = document.querySelectorAll(".br5");
+
 
 // записываем в  константы данные для расчетов
 const calcYear = document.querySelector(".year");
@@ -72,14 +74,17 @@ daysInMonth = (m, y) =>
 
 
 const getStrBr = () => {
-  clearTable()
+  
+  clearTable();
   // записываем в  константы блоки с исходными данными
   const startDate = document.querySelector(".shift-start");
-  const numberOfBrigade = document.querySelector(".shift-brigade");
+  const numberOfBrigade = document.querySelector(".number-brigade");
+  const totalBrigade = document.querySelector(".total-brigade");
 
   // объявляем переменные и заносим исходные значения
   let startDateVal = startDate.value;
   let numberOfBrigadeVal = numberOfBrigade.value;
+  let totalBrigadeVal = totalBrigade.value;
 
   // записываем в node-list циклические части
   const cicleItems = document.querySelectorAll(".shift__box");
@@ -99,8 +104,7 @@ const getStrBr = () => {
   const dataStart = new Date(curYear, curMonth, startDateVal);
   // console.log(dataStart);
 
-
-  const future = new Date(inputYear.value, inputMonth.value-1);
+  const future = new Date(inputYear.value, inputMonth.value - 1);
   // console.log(future);
   const furYear = future.getFullYear();
   const furMonth = future.getMonth();
@@ -108,8 +112,8 @@ const getStrBr = () => {
 
   // console.log(dataEnd);
   // console.log(furMonth);
-// Передаем месяц в формате js от 0 до 11
-  const days = daysInMonth(furMonth+1, furYear);
+  // Передаем месяц в формате js от 0 до 11
+  const days = daysInMonth(furMonth + 1, furYear);
 
   // console.log(days, furMonth, furYear);
 
@@ -143,16 +147,14 @@ const getStrBr = () => {
   let j = 0;
   // заполняем новый массив с отступом из старого массива
   for (let i = deltaDiffDays; i < arrCicle.length; i++) {
-    newArrCicle[j] = arrCicle[i]
-    j++
+    newArrCicle[j] = arrCicle[i];
+    j++;
   }
   // продолжаем заполнять новый массив отступом из старого массива
-   for (let i = 0; i < deltaDiffDays; i++) {
-     newArrCicle[j] = arrCicle[i];
-     j++;
-   }
-
-
+  for (let i = 0; i < deltaDiffDays; i++) {
+    newArrCicle[j] = arrCicle[i];
+    j++;
+  }
 
   b1 = newArrCicle.join("");
 
@@ -185,23 +187,54 @@ const getStrBr = () => {
       b1.substring(arrCicle.length - +deltaBr4.value, arrCicle.length) +
       b1.substring(0, arrCicle.length - +deltaBr4.value);
   }
-  // циклы каждой из бригад
-  // console.log(b1);
-  // console.log(b2);
-  // console.log(b3);
-  // console.log(b4);
+
+  if (+deltaBr5.value < 0) {
+    b5 =
+      b1.substring(Math.abs(+deltaBr5.value), arrCicle.length) +
+      b1.substring(0, Math.abs(+deltaBr5.value));
+  } else {
+    b5 =
+      b1.substring(arrCicle.length - +deltaBr5.value, arrCicle.length) +
+      b1.substring(0, arrCicle.length - +deltaBr5.value);
+  }
 
   // Вызов функции заполнения каждой из бригад
-  console.log(days);
-  fillTable(br1, b1, days, startDateVal);
-  fillTable(br2, b2, days, startDateVal);
-  fillTable(br3, b3, days, startDateVal);
-  fillTable(br4, b4, days, startDateVal);
 
-  // console.log(sumCicleDays);
-  // console.log(dataStart);
-  // console.log(dataEnd);
-  // console.log(calcDate(dataStart, dataEnd, sumCicleDays));
+  for (let k = 1; k <= totalBrigadeVal; k++) {
+    fillTable(eval(`br${k}`), eval(`b${k}`), days, startDateVal);
+  }
+ 
+  // прячем лишние строки (бригады)  в зависимости от выбора количества бригад
+
+  const brRow1 = document.querySelector("#brigade1");
+  const brRow2 = document.querySelector("#brigade2");
+  const brRow3 = document.querySelector("#brigade3");
+  const brRow4 = document.querySelector("#brigade4");
+  const brRow5 = document.querySelector("#brigade5");
+  if (totalBrigadeVal == 4) {
+    brRow5.classList.add("hide");
+  }
+  if (totalBrigadeVal == 3) {
+    brRow5.classList.add("hide");
+    brRow4.classList.add("hide");
+  }
+  if (totalBrigadeVal == 2) {
+    brRow5.classList.add("hide");
+    brRow4.classList.add("hide");
+    brRow3.classList.add("hide");
+  }
+  if (totalBrigadeVal == 1) {
+    brRow5.classList.add("hide");
+    brRow4.classList.add("hide");
+    brRow3.classList.add("hide");
+    brRow2.classList.add("hide");
+  }
+  for (let y = 0; y < 6; y++) {
+    for (let i = days; i < 31; i++) {
+      console.log(eval(`br${y}[${i}]`))
+        eval(`br${y}[${i}]`).classList.add("hide");
+    }
+  }
 
   return sumCicleDays;
 };
@@ -213,7 +246,7 @@ clearTable = () => {
       br2[i].textContent = '';
       br3[i].textContent = '';
       br4[i].textContent = '';
-      br5[i].textContent = "";
+      br5[i].textContent = '';
     }
   }
 
@@ -223,7 +256,6 @@ clearTable = () => {
 // Заполняем ячейуки месяца по бригадам выбравнным графиком
 fillTable = (br, b, days, startDateVal) => {
   let z = 0;
-  // console.log(startDateVal);
   if (startDateVal == 1) {
     for (let i = 0; i < days; i++) {
       br[i].textContent = b[z];
