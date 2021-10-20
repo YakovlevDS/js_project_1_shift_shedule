@@ -7,6 +7,8 @@ const btnClear = document.querySelector("#btn-clear");
 const deltaBr2 = document.querySelector("#deltaBr2");
 const deltaBr3 = document.querySelector("#deltaBr3");
 const deltaBr4 = document.querySelector("#deltaBr4");
+  // записываем в  константу list смещений бригад
+  const inputDelta = document.querySelectorAll(".input-delta");
 
 // записываем в node-list ячейки по-бригадно
 const br0 = document.querySelectorAll(".day-num");
@@ -15,6 +17,9 @@ const br2 = document.querySelectorAll(".br2");
 const br3 = document.querySelectorAll(".br3");
 const br4 = document.querySelectorAll(".br4");
 const br5 = document.querySelectorAll(".br5");
+
+
+
 
 
 // записываем в  константы данные для расчетов
@@ -44,7 +49,7 @@ let monthNames = [
   let sumCicleDays = 0
 
 // записываем в  константы блоки для вставки контента
-const contentAdd = document.querySelector(".shift__wrapper");
+const contentAdd = document.querySelector(".shift__box");
 const parentAppend = document.querySelector("#add-block-wrapper");
 const parentAppendDel = document.querySelector(
   "#gv__add-shift-button__wrapper"
@@ -74,8 +79,10 @@ daysInMonth = (m, y) =>
 
 
 const getStrBr = () => {
-  
   clearTable();
+
+
+
   // записываем в  константы блоки с исходными данными
   const startDate = document.querySelector(".shift-start");
   const numberOfBrigade = document.querySelector(".number-brigade");
@@ -83,8 +90,8 @@ const getStrBr = () => {
 
   // объявляем переменные и заносим исходные значения
   let startDateVal = startDate.value;
-  let numberOfBrigadeVal = numberOfBrigade.value;
-  let totalBrigadeVal = totalBrigade.value;
+  let numberOfBrigadeVal = +numberOfBrigade.value;
+  let totalBrigadeVal = +totalBrigade.value;
 
   // записываем в node-list циклические части
   const cicleItems = document.querySelectorAll(".shift__box");
@@ -203,39 +210,35 @@ const getStrBr = () => {
   for (let k = 1; k <= totalBrigadeVal; k++) {
     fillTable(eval(`br${k}`), eval(`b${k}`), days, startDateVal);
   }
- 
-  // прячем лишние строки (бригады)  в зависимости от выбора количества бригад
 
+  // прячем лишние строки (бригады)  в зависимости от выбора количества бригад
   const brRow2 = document.querySelector("#brigade2");
   const brRow3 = document.querySelector("#brigade3");
   const brRow4 = document.querySelector("#brigade4");
   const brRow5 = document.querySelector("#brigade5");
-  if (totalBrigadeVal == 4) {
-    brRow5.classList.add("hide");
-  }
-  if (totalBrigadeVal == 3) {
-    brRow5.classList.add("hide");
-    brRow4.classList.add("hide");
-  }
-  if (totalBrigadeVal == 2) {
-    brRow5.classList.add("hide");
-    brRow4.classList.add("hide");
-    brRow3.classList.add("hide");
-  }
-  if (totalBrigadeVal == 1) {
-    brRow5.classList.add("hide");
-    brRow4.classList.add("hide");
-    brRow3.classList.add("hide");
-    brRow2.classList.add("hide");
-  }
+
+   for (let i = 1 + totalBrigadeVal; i < 6; i++) {
+     eval(`brRow${i}`).classList.add("hide");
+   }
+
+
+  // прячем лишние(пустые) колонки(конец месяца)
   for (let y = 0; y < 6; y++) {
     for (let i = days; i < 31; i++) {
-        eval(`br${y}[${i}]`).classList.add("hide");
+      eval(`br${y}[${i}]`).classList.add("hide");
     }
   }
 
+// не работает
+ for (let i = 5 - totalBrigadeVal; i < 4; i++) {
+   eval(`inputDelta[${i}]`).classList.add("hide");
+ }
+
   return sumCicleDays;
 };
+
+
+ 
 
 // Заполняем ячейуки месяца пустотами
 clearTable = () => {
@@ -307,10 +310,10 @@ calcDate = (date1, date2, sumCicleDays) =>{
 
 // Функция удаления cicleParts
 del = () => {
-  console.log(parentAppend.childElementCount);
+  // console.log(parentAppend.childElementCount);
   if (parentAppend.childElementCount > 1) {
     parentAppend.lastElementChild.remove();
-    if ((parentAppend.childElementCount = 1)) {
+  if ((parentAppend.childElementCount = 1)) {
       btnDel.remove();
     }
   }
@@ -320,7 +323,6 @@ del = () => {
 btnAdd.addEventListener("click", () => add());
 btnCalc.addEventListener("click", () => getStrBr());
 btnClear.addEventListener("click", () => clearTable());
-// inputMonth.addEventListener("change", () =>calcMonth.textContent=monthNames[inputMonth.value-1] );
-// inputYear.addEventListener("change", () => calcYear.textContent = inputYear.value);
+// totalBrigade.addEventListener("change", () => hideDeltaBrigade());
 
 
