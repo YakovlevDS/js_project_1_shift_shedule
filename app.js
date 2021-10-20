@@ -206,7 +206,6 @@ const getStrBr = () => {
  
   // прячем лишние строки (бригады)  в зависимости от выбора количества бригад
 
-  const brRow1 = document.querySelector("#brigade1");
   const brRow2 = document.querySelector("#brigade2");
   const brRow3 = document.querySelector("#brigade3");
   const brRow4 = document.querySelector("#brigade4");
@@ -231,7 +230,6 @@ const getStrBr = () => {
   }
   for (let y = 0; y < 6; y++) {
     for (let i = days; i < 31; i++) {
-      console.log(eval(`br${y}[${i}]`))
         eval(`br${y}[${i}]`).classList.add("hide");
     }
   }
@@ -241,12 +239,10 @@ const getStrBr = () => {
 
 // Заполняем ячейуки месяца пустотами
 clearTable = () => {
+  for (let y = 1; y < 6; y++) {
     for (let i = 0; i < 31; i++) {
-      br1[i].textContent = '';
-      br2[i].textContent = '';
-      br3[i].textContent = '';
-      br4[i].textContent = '';
-      br5[i].textContent = '';
+      eval(`br${y}[${i}]`).textContent = '';
+    }
     }
   }
 
@@ -265,7 +261,6 @@ fillTable = (br, b, days, startDateVal) => {
   } else {
     for (let i = startDateVal; i < days+1; i++) {
       br[i - 1].textContent = b[z];
-      // console.log(br[i - 1].textContent);
       // Проверяем если остаток от деления текущего дня мес на длину полного цикла ноль то сбрасываем заполнение на нулевой элемент цикла пока не заполним все дни мес
       (i + 1) % b.length === 0 ? (z = 0) : z++;
     }
@@ -273,8 +268,6 @@ fillTable = (br, b, days, startDateVal) => {
     const revB = b.split("").reverse().join("");
     console.log(revB);
     for (let j = +startDateVal - 1; j > 0; j--) {
-      // console.log(j);
-      // console.log(z);
       br[j-1].textContent = revB[z];
       // Проверяем если остаток от деления текущего дня мес на длину полного цикла ноль то сбрасываем заполнение на нулевой элемент цикла пока не заполним все дни мес
       (j + 1) % b.length === 0 ? (z = 0) : z++;
@@ -286,9 +279,7 @@ calcDate = (date1, date2, sumCicleDays) =>{
   let diff = Math.floor(date2.getTime() - date1.getTime());
   let day = 1000 * 60 * 60 * 24;
   let ds = Math.floor(diff / day);
-  // console.log(ds);
   let remainder = ds % sumCicleDays
-  // console.log(remainder);
   return remainder;
 }
 
