@@ -26,9 +26,9 @@
 <option value="5">5</option>
 </select>
 </div>
-<div class="wrap-number-brigade m-2">Выберите номер бригады, относительно которой будет расчет
+<div class="wrap-number-brigade m-2">Номер бригады, относительно которой будет расчет
 
-  <select class="number-brigade m-2">
+  <select class="number-brigade m-2" disabled>
 <option value="1" selected>1</option>
 <option value="2">2</option>
 <option value="3">3</option>
@@ -71,7 +71,6 @@
 <option value="30">30</option>
 <option value="31">31</option>
 </select>
-
 <div class="number-month m-2">Выберите расчетный месяц
 
 
@@ -93,6 +92,7 @@
 <div class="input-year m-2">Введите расчетный год
 <input id= 'calcYear' type="text" value='2021'>
 </div>
+<div class="input-delta-wrap m-3">Внесите смещения цикла бригад
 <div class="input-delta">Введите смещение смен 2бр относительно 1бр
 <input id= 'deltaBr2' type="text" value='-4'>
 </div>
@@ -105,9 +105,10 @@
 <div class="input-delta">Введите смещение смен 5бр относительно 1бр
 <input id= 'deltaBr5' type="text" value='12'>
 </div>
-<div class="shift__wrapper m-2">
+</div>
+<div class="shift__wrapper m-4"> Внесите периодические части полного цикла
   
-<div class="shift__box">
+<div class="shift__box m-2">
 <select class="shift-type"  >
 <option value="1" selected>Рабочие дни</option>
 <option value="0">Выходные дни</option>
@@ -146,8 +147,6 @@
 <option value="⚓">⚓</option>
 </select>
 </div>
-</div>
-<div class="gv__shift__wrapper">
 <div class="shift__box m-2">
 <select class="shift-work-off-days"  >
 <option value="1">Рабочие дни</option>
@@ -182,8 +181,6 @@
 <option value=" " > </option>
 </select>            
 </div>
-
-
 <div class="shift__box m-2">
 <select class="shift-work-off-days"  >
 <option value="1">Рабочие дни</option>
@@ -218,11 +215,6 @@
 <option value=" " > </option>
 </select>            
 </div>
-
-
-
-
-
 <div class="shift__box m-2">
 <select class="shift-work-off-days"  >
 <option value="1">Рабочие дни</option>
@@ -257,10 +249,6 @@
 <option value=" " > </option>
 </select>            
 </div>
-
-
-
-
 <div class="shift__box m-2">
 <select class="shift-work-off-days"  >
 <option value="1">Рабочие дни</option>
@@ -295,8 +283,6 @@
 <option value=" " > </option>
 </select>            
 </div>
-
-
 <div class="shift__box m-2">
 <select class="shift-work-off-days"  >
 <option value="1">Рабочие дни</option>
@@ -331,20 +317,17 @@
 <option value=" " > </option>
 </select>            
 </div>
-
-
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="gv__add-shift-button__wrapper" class="d-flex flex-row justify-content-center m-2">
-                <div id="gv__add-shift-button__box" >
-                  
-                  <button type="button" id="btn-add" class="btn btn-primary"> Add row</button>
-                    
-                </div>
+                  <button type="button" id="btn-add" class="btn btn-primary me-1"> Add row</button>
+                  <button type="button" id="btn-del" class="btn btn-primary me-1"> Del row</button>
             </div>
         </div>
-    </div>
+    
     <div class="wrap">
       <button type="button" id="btn-calc" class="btn btn-primary">Calculate</button>
       <button type="button" id="btn-clear" class="btn btn-primary">Clear Table</button>

@@ -2,6 +2,8 @@
 const btnAdd = document.querySelector("#btn-add");
 const btnCalc = document.querySelector("#btn-calc");
 const btnClear = document.querySelector("#btn-clear");
+ const  btnDel = document.querySelector("#btn-del");
+
 
 // записываем в  константы смещение полного цикла относительно бригады 1
 const deltaBr2 = document.querySelector("#deltaBr2");
@@ -18,6 +20,11 @@ const br3 = document.querySelectorAll(".br3");
 const br4 = document.querySelectorAll(".br4");
 const br5 = document.querySelectorAll(".br5");
 
+  // находим все строки бригад и заносим в константы
+  const brRow2 = document.querySelector("#brigade2");
+  const brRow3 = document.querySelector("#brigade3");
+  const brRow4 = document.querySelector("#brigade4");
+  const brRow5 = document.querySelector("#brigade5");
 
 
 
@@ -25,6 +32,12 @@ const br5 = document.querySelectorAll(".br5");
 // записываем в  константы данные для расчетов
 const calcYear = document.querySelector(".year");
 const calcMonth = document.querySelector(".month");
+
+// записываем в константу количество бригад и его значение в переменную
+const totalBrigade = document.querySelector(".total-brigade");
+let totalBrigadeVal = +totalBrigade.value;
+  
+
 
 let monthNames = [
   "January",
@@ -50,20 +63,10 @@ let monthNames = [
 
 // записываем в  константы блоки для вставки контента
 const contentAdd = document.querySelector(".shift__box");
-const parentAppend = document.querySelector("#add-block-wrapper");
-const parentAppendDel = document.querySelector(
-  "#gv__add-shift-button__wrapper"
-);
+const parentAppend = document.querySelector(".shift__wrapper");
 
 // временные исходные данные
-let b1;
-let b2;
-let b3;
-let b4;
-let b5;
-
-// объявляем переменные 
-let btnDel;
+let b1, b2,b3,b4,b5
 
 
 // Расчет количества дней в месяце любого года
@@ -81,17 +84,13 @@ daysInMonth = (m, y) =>
 const getStrBr = () => {
   clearTable();
 
-
-
   // записываем в  константы блоки с исходными данными
   const startDate = document.querySelector(".shift-start");
   const numberOfBrigade = document.querySelector(".number-brigade");
-  const totalBrigade = document.querySelector(".total-brigade");
 
   // объявляем переменные и заносим исходные значения
   let startDateVal = startDate.value;
   let numberOfBrigadeVal = +numberOfBrigade.value;
-  let totalBrigadeVal = +totalBrigade.value;
 
   // записываем в node-list циклические части
   const cicleItems = document.querySelectorAll(".shift__box");
@@ -211,16 +210,12 @@ const getStrBr = () => {
     fillTable(eval(`br${k}`), eval(`b${k}`), days, startDateVal);
   }
 
+
+
   // прячем лишние строки (бригады)  в зависимости от выбора количества бригад
-  const brRow2 = document.querySelector("#brigade2");
-  const brRow3 = document.querySelector("#brigade3");
-  const brRow4 = document.querySelector("#brigade4");
-  const brRow5 = document.querySelector("#brigade5");
-
-   for (let i = 1 + totalBrigadeVal; i < 6; i++) {
-     eval(`brRow${i}`).classList.add("hide");
-   }
-
+  for (let i = 1 + totalBrigadeVal; i < 6; i++) {
+    eval(`brRow${i}`).classList.add("hide");
+  }
 
   // прячем лишние(пустые) колонки(конец месяца)
   for (let y = 0; y < 6; y++) {
@@ -228,11 +223,13 @@ const getStrBr = () => {
       eval(`br${y}[${i}]`).classList.add("hide");
     }
   }
+  hideDeltaBrigade();
+  
 
-// не работает
- for (let i = 5 - totalBrigadeVal; i < 4; i++) {
-   eval(`inputDelta[${i}]`).classList.add("hide");
- }
+   // прячем лишние поля смещений бригад относительно 1 бр
+  // for (let i =totalBrigadeVal-1; i < 4; i++) {
+  //   inputDelta[i].classList.add("hide");
+  // }
 
   return sumCicleDays;
 };
@@ -246,10 +243,32 @@ clearTable = () => {
     for (let i = 0; i < 31; i++) {
       eval(`br${y}[${i}]`).textContent = '';
     }
-    }
   }
+ for (let y = 0; y < 6; y++) {
+   for (let i = 27; i < 31; i++) {
+     eval(`br${y}[${i}]`).classList.remove("hide");
+   }
+ }
 
-
+  for (let i = 2; i < 6; i++) {
+    eval(`brRow${i}`).classList.remove("hide");
+  }
+}
+  
+// Функция скрытия лишних смещений
+hideDeltaBrigade = () => {
+    // прячем лишние поля смещений бригад относительно 1 бр
+    for (let i =totalBrigadeVal-1; i < 4; i++) {
+    inputDelta[i].classList.add("hide");
+  }
+}
+clearDeltaBrigade = () => {
+  // отображаем все
+  for (let i = 0; i < 4; i++) {
+    inputDelta[i].classList.remove("hide");
+  }
+};
+  
 
   
 // Заполняем ячейуки месяца по бригадам выбравнным графиком
@@ -286,43 +305,32 @@ calcDate = (date1, date2, sumCicleDays) =>{
   return remainder;
 }
 
-// Функция добавления cicleParts
- add = () => {
-  // если нет кнопки Del то создаем ее с классами контентом и добавляем в DOM
-  if (!btnDel) {
-    const buttonDel = document.createElement("button");
-    buttonDel.type = "button";
-    buttonDel.classList.add("btn", "btn-primary", "btn-sm", "btn-del");
-    buttonDel.textContent = "Delete";
-    parentAppendDel.appendChild(buttonDel);
+ addRowPartCicle = () => {
+   // создание div c классами и контентом и добавление в Dom
+   const el = document.createElement("div");
+   el.classList.add("d-flex", "flex-row", "m-2", "justify-content-center");
+   let content = contentAdd.innerHTML;
+   el.innerHTML = content;
+   parentAppend.appendChild(el);
+ };
 
-    // находим созданную кнопку Del и вешаем слушатель события click вызывая функцию Del
-    btnDel = document.querySelector(".btn-del");
-    btnDel.addEventListener("click", () => del());
-  }
-  // создание div c классами и контентом и добавление в Dom
-  const el = document.createElement("div");
-  el.classList.add("d-flex", "flex-row", "m-2", "justify-content-center");
-  let content = contentAdd.innerHTML;
-  el.innerHTML = content;
-  parentAppend.appendChild(el);
-};
+deleteRowPartCicle = () =>
+  parentAppend.childElementCount > 1
+    ? parentAppend.lastElementChild.remove()
+    : btnDel.setAttribute("disabled", "disabled");
+  
+  
 
-// Функция удаления cicleParts
-del = () => {
-  // console.log(parentAppend.childElementCount);
-  if (parentAppend.childElementCount > 1) {
-    parentAppend.lastElementChild.remove();
-  if ((parentAppend.childElementCount = 1)) {
-      btnDel.remove();
-    }
-  }
-};
 
 //  Добавление слушателей на события click по кнопкам Add и Calc
-btnAdd.addEventListener("click", () => add());
+btnAdd.addEventListener("click", () => addRowPartCicle());
 btnCalc.addEventListener("click", () => getStrBr());
 btnClear.addEventListener("click", () => clearTable());
-// totalBrigade.addEventListener("change", () => hideDeltaBrigade());
+btnDel.addEventListener("click", () => deleteRowPartCicle());
 
-
+totalBrigade.addEventListener("change", () => {
+  clearDeltaBrigade()
+  totalBrigadeVal = +totalBrigade.value;
+  hideDeltaBrigade()
+}
+)
