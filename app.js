@@ -4,6 +4,10 @@ const btnCalc = document.querySelector("#btn-calc");
 const btnClear = document.querySelector("#btn-clear");
  const  btnDel = document.querySelector("#btn-del");
 
+ // записываем в node-list циклические части
+  const cicleItems = document.querySelectorAll(".shift__box");
+  const cicleParts = document.querySelectorAll(".shift-duration");
+  const labels = document.querySelectorAll(".shift-label");
 
 // записываем в  константы смещение полного цикла относительно бригады 1
 const deltaBr2 = document.querySelector("#deltaBr2");
@@ -54,12 +58,7 @@ let monthNames = [
   "December",
 ];
 
-  // записываем в node-list циклические значения всех элементов node-list
-  let ciclePartsVal = [];
-  let labelVal = [];
-  let arrCicle = [];
-  let newArrCicle = [];
-  let sumCicleDays = 0
+
 
 // записываем в  константы блоки для вставки контента
 const contentAdd = document.querySelector(".shift__box");
@@ -83,19 +82,20 @@ daysInMonth = (m, y) =>
 
 const getStrBr = () => {
   clearTable();
+  // записываем в node-list циклические значения всех элементов node-list
+  let ciclePartsVal = [];
+  let labelVal = [];
+  let arrCicle = [];
+  let sumCicleDays = 0;
+  let newArrCicle = [];
 
   // записываем в  константы блоки с исходными данными
   const startDate = document.querySelector(".shift-start");
   const numberOfBrigade = document.querySelector(".number-brigade");
-
   // объявляем переменные и заносим исходные значения
   let startDateVal = startDate.value;
   let numberOfBrigadeVal = +numberOfBrigade.value;
-
-  // записываем в node-list циклические части
-  const cicleItems = document.querySelectorAll(".shift__box");
-  const cicleParts = document.querySelectorAll(".shift-duration");
-  const labels = document.querySelectorAll(".shift-label");
+  // console.log(startDateVal);
 
   // записываем в  константы данные для расчетов
   const inputMonth = document.querySelector("#calc-month");
@@ -106,7 +106,9 @@ const getStrBr = () => {
   const curDate = new Date();
 
   const curYear = curDate.getFullYear();
+  // console.log(curYear);
   const curMonth = curDate.getMonth();
+  // console.log(curMonth);
   const dataStart = new Date(curYear, curMonth, startDateVal);
   // console.log(dataStart);
 
@@ -114,7 +116,9 @@ const getStrBr = () => {
   // console.log(future);
   const furYear = future.getFullYear();
   const furMonth = future.getMonth();
-  const dataEnd = new Date(furYear, furMonth, 1);
+
+  // const dataEnd = new Date(furYear, furMonth, 1);
+  // console.log(furYear, furMonth, dataEnd);
 
   // console.log(dataEnd);
   // console.log(furMonth);
@@ -145,25 +149,52 @@ const getStrBr = () => {
       arrCicle.push(labelVal[g]);
     }
   }
+  // console.log(arrCicle);
 
   // находим  и заносим в константу смещение по разности дней дат
-  const deltaDiffDays = calcDate(dataStart, dataEnd, sumCicleDays);
-
+  const deltaDiffDays = calcDate(dataStart, future, sumCicleDays);
+  console.log(deltaDiffDays);
   // перезаписываем массив с учетом смещения
   let j = 0;
-  // заполняем новый массив с отступом из старого массива
-  for (let i = deltaDiffDays; i < arrCicle.length; i++) {
-    newArrCicle[j] = arrCicle[i];
-    j++;
+  // console.log(arrCicle);
+  if (deltaDiffDays < 0) {
+
+    console.log("pfgjkyztv gj 1 cwtyfhb.");
+
+    // заполняем новый массив с отступом из старого массива
+    for (
+      let i = arrCicle.length + deltaDiffDays;
+      i < arrCicle.length;
+      i++
+    ) {
+      newArrCicle[j] = arrCicle[i];
+      j++;
+    }
+    // console.log(newArrCicle);
+    // продолжаем заполнять новый массив отступом из старого массива
+    for (let i = 0; i < arrCicle.length + deltaDiffDays; i++) {
+      newArrCicle[j] = arrCicle[i];
+      j++;
+    }
+  } else {
+    console.log('pfgjkyztv gj 2 cwtyfhb.');
+    // заполняем новый массив с отступом из старого массива
+    for (let i = deltaDiffDays; i < arrCicle.length; i++) {
+      newArrCicle[j] = arrCicle[i];
+      j++;
+    }
+    // console.log(newArrCicle);
+    // продолжаем заполнять новый массив отступом из старого массива
+    for (let i = 0; i < deltaDiffDays; i++) {
+      newArrCicle[j] = arrCicle[i];
+      j++;
+    }
   }
-  // продолжаем заполнять новый массив отступом из старого массива
-  for (let i = 0; i < deltaDiffDays; i++) {
-    newArrCicle[j] = arrCicle[i];
-    j++;
-  }
+
+  console.log(newArrCicle);
 
   b1 = newArrCicle.join("");
-
+  // console.log(b1);
   if (+deltaBr2.value < 0) {
     b2 =
       b1.substring(Math.abs(+deltaBr2.value), arrCicle.length) +
@@ -203,14 +234,16 @@ const getStrBr = () => {
       b1.substring(arrCicle.length - +deltaBr5.value, arrCicle.length) +
       b1.substring(0, arrCicle.length - +deltaBr5.value);
   }
-
+  console.log(b1);
+  console.log(b2);
+  console.log(b3);
+  console.log(b4);
+  // console.log(b5);
   // Вызов функции заполнения каждой из бригад
 
   for (let k = 1; k <= totalBrigadeVal; k++) {
     fillTable(eval(`br${k}`), eval(`b${k}`), days, startDateVal);
   }
-
-
 
   // прячем лишние строки (бригады)  в зависимости от выбора количества бригад
   for (let i = 1 + totalBrigadeVal; i < 6; i++) {
@@ -224,9 +257,8 @@ const getStrBr = () => {
     }
   }
   hideDeltaBrigade();
-  
 
-   // прячем лишние поля смещений бригад относительно 1 бр
+  // прячем лишние поля смещений бригад относительно 1 бр
   // for (let i =totalBrigadeVal-1; i < 4; i++) {
   //   inputDelta[i].classList.add("hide");
   // }
@@ -272,36 +304,45 @@ clearDeltaBrigade = () => {
 
   
 // Заполняем ячейуки месяца по бригадам выбравнным графиком
-fillTable = (br, b, days, startDateVal) => {
+fillTable = (br, b, days, startDat) => {
   let z = 0;
-  if (startDateVal == 1) {
+  // реализация заполнения с первого числа месяца
+  if (startDat == 1) {
     for (let i = 0; i < days; i++) {
       br[i].textContent = b[z];
       // Проверяем если остаток от деления текущего дня мес на длину полного цикла ноль то сбрасываем заполнение на нулевой элемент цикла пока не заполним все дни мес
       (i + 1) % b.length === 0 ? (z = 0) : z++;
     }
+
+    // реализация заполнения не с первого числа месяца
   } else {
-    for (let i = startDateVal; i < days+1; i++) {
+    // заполняем сначала конец мес от даты начала рабочего цикла
+    for (let i = startDat; i < days + 1; i++) {
       br[i - 1].textContent = b[z];
       // Проверяем если остаток от деления текущего дня мес на длину полного цикла ноль то сбрасываем заполнение на нулевой элемент цикла пока не заполним все дни мес
       (i + 1) % b.length === 0 ? (z = 0) : z++;
     }
-     z = 0
+    // заполняем начало мес от даты начала рабочего цикла в обратном порядке
+    z = 0;
     const revB = b.split("").reverse().join("");
-    console.log(revB);
-    for (let j = +startDateVal - 1; j > 0; j--) {
-      br[j-1].textContent = revB[z];
+    // console.log(revB);
+    for (let j = +startDat - 1; j > 0; j--) {
+      br[j - 1].textContent = revB[z];
       // Проверяем если остаток от деления текущего дня мес на длину полного цикла ноль то сбрасываем заполнение на нулевой элемент цикла пока не заполним все дни мес
       (j + 1) % b.length === 0 ? (z = 0) : z++;
     }
   }
+  
 };
 // определение разницы дней  от указанного в текущем месяце до 1 числа расчетного месяца и остаток от деления
 calcDate = (date1, date2, sumCicleDays) =>{
   let diff = Math.floor(date2.getTime() - date1.getTime());
+console.log(diff);
   let day = 1000 * 60 * 60 * 24;
   let ds = Math.floor(diff / day);
+  console.log(ds);
   let remainder = ds % sumCicleDays
+  console.log(remainder);
   return remainder;
 }
 
